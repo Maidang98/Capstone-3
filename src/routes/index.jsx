@@ -35,7 +35,7 @@ const routes = [
       },
       {
         path: "hooks",
-        element: lazy(() => import("../pages/HomeTemplate/hooks-main/Hooks")),
+        element: lazy(() => import("../HomeTemplate/hooks-main/hooks/Hooks")),
       },
       {
         path: "detail/:maPhim",

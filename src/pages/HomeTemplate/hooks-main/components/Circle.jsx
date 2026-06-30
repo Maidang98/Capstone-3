@@ -1,4 +1,4 @@
-import { useMagicColor } from "../hooks-main/useMagicColor";
+import { useMagicColor } from "../hooks/useMagicColor";
 
 export default function Circle() {
   const color = useMagicColor();
