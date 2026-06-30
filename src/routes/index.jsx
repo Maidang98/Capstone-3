@@ -1,0 +1,114 @@
+import { Route } from "react-router-dom";
+import { lazy } from "react";
+import PageNotFound from "../components/PageNotFound";
+
+
+const routes = [
+  {
+    path: "",
+    element: lazy(() => import("./../pages/HomeTemplate")),
+    nested: [
+      {
+        path: "",
+        element: lazy(() => import("./../pages/HomeTemplate/Home")),
+      },
+      // CẬP NHẬT TRANG ĐẶT VÉ 
+      {
+        path: "checkout/:maLichChieu",
+        element: lazy(() => import("../pages/HomeTemplate/Checkout")),
+      },
+      {
+        path: "list-movie",
+        element: lazy(() => import("../pages/HomeTemplate/ListMovie")),
+      },
+      {
+        path: "login",
+        element: lazy(() => import("../pages/HomeTemplate/Login")),
+      },
+      {
+        path: "register",
+        element: lazy(() => import("../pages/HomeTemplate/Register")),
+      },
+      {
+        path: "booking",
+        element: lazy(() => import("../pages/HomeTemplate/Booking"))
+      },
+      {
+        path: "hooks",
+        element: lazy(() => import("../pages/HomeTemplate/hooks-main/Hooks")),
+      },
+      {
+        path: "detail/:maPhim",
+        element: lazy(() => import("../pages/HomeTemplate/Detail")),
+      }
+    ],
+  },
+  {
+  path: "admin",
+  element: lazy(() => import("../pages/AdminTemplate")),
+  nested: [
+    {
+      path: "dashboard",
+      element: lazy(() => import("../pages/AdminTemplate/DashBoard")),
+    },
+    // Trang danh sách phim (khi vào /admin/films)
+    {
+      path: "films",
+      element: lazy(() => import("../pages/AdminTemplate/Films")),
+    },
+    // Trang thêm phim (khi vào /admin/films/addnew)
+    {
+      path: "films/addnew",
+      element: lazy(() => import("../pages/AdminTemplate/Films/AddNew")),
+    },
+    {
+      path: "films/edit/:id",
+      element: lazy(() => import("../pages/AdminTemplate/Films/Edit")),
+    },
+    {
+      path: "user",
+      element: lazy(() => import("../pages/AdminTemplate/User/index")),
+    },
+    {
+      path: "user/add-user",
+      element: lazy(() => import("../pages/AdminTemplate/AddUser"))
+    },
+    {
+      path: "user/edit/:taiKhoan",
+      element: lazy(() => import("../pages/AdminTemplate/User/Edit")),
+    }
+  ],
+},
+  {
+    path: "auth",
+    element: lazy(() => import("../pages/AdminTemplate/Auth")),
+  },
+
+  {
+    path: "*",
+    element: PageNotFound,
+  },
+];
+
+export const renderRoutes = () => {
+  return routes.map((route) => {
+    if (route.nested) {
+      return (
+        <Route key={route.path} path={route.path} element={<route.element />}>
+          {route.nested.map((item) => (
+            <Route
+              key={item.path}
+              path={item.path}
+              element={<item.element />}
+            />
+          ))}
+        </Route>
+      );
+    } else {
+      const Element = route.element;
+      return (
+        <Route key={route.path} path={route.path} element={<Element />} />
+      );
+    }
+  });
+};
